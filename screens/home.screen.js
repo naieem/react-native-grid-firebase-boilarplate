@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import {
     Text,
     View,
@@ -6,11 +6,14 @@ import {
     Image,
     ScrollView,
     ActivityIndicator,
-    TouchableOpacity
+    TouchableOpacity, TouchableHighlight, SafeAreaView,
+    YellowBox
 } from 'react-native'
-import {Card, ListItem, Button, Icon} from 'react-native-elements';
-import {db} from '../DB/config';
+import { Card, ListItem, Button, Icon } from 'react-native-elements';
 import GridList from 'react-native-grid-list';
+import BasicImageSlider from '../ReusableComponents/ImageSlider';
+import { db } from '../DB/config';
+
 const items = [
     {
         thumbnail: {
@@ -30,38 +33,54 @@ const items = [
         }
     }
 ];
+YellowBox.ignoreWarnings(["Warning: Failed child context type: Invalid child context",]);
 export class HomeScreen extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            categoryInfo: []
+            categoryInfo: [],
+            backupCatInfo: []
         };
     }
     componentDidMount() {
         const users = db.ref('/categories');
         users.once('value', (dataSnap) => {
             this.setState({
-                categoryInfo: dataSnap.val()
+                backupCatInfo: dataSnap.val()
+            });
+            var sliceCat = this.state.backupCatInfo.slice(0, 10);
+            this.setState({
+                categoryInfo: sliceCat
             });
             console.log(this.state.categoryInfo.length);
         });
     }
-    renderItem = ({item, index}) => {
+    renderItem = ({ item, index }) => {
         return (
-            <View style={{padding:10}}>
-                <Image style={{height:100}} source={{uri:item.picture}}/>
+            <View style={{ padding: 10 }}>
+                <Image style={{ height: 100 }} source={{ uri: item.picture }} />
             </View>
         );
     };
     render() {
+        const images = [
+            'https://placeimg.com/640/640/nature',
+            'https://placeimg.com/640/640/cats',
+            'https://placeimg.com/640/640/cats',
+            'https://placeimg.com/640/640/cats',
+        ];
         return (
-            <ScrollView style={styles.container}>
-                <GridList
-                    showSeparator
-                    data={this.state.categoryInfo}
-                    numColumns={2}
-                    renderItem={this.renderItem}/>
-            </ScrollView>
+            <SafeAreaView style={styles.container} >
+                <ScrollView>
+                    <BasicImageSlider images={images} autoPlayWithInterval={5000}></BasicImageSlider>
+                    <GridList
+                        showSeparator
+                        data={this.state.categoryInfo}
+                        numColumns={2}
+                        renderItem={this.renderItem} />
+                </ScrollView>
+            </SafeAreaView>
+
         )
     }
 }
@@ -70,8 +89,8 @@ const styles = StyleSheet.create({
         flex: 1,
         paddingTop: 10
     },
-    listItemContainer:{
-        padding:10
+    listItemContainer: {
+        padding: 10
     }
 });
 
