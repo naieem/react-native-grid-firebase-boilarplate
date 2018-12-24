@@ -5,13 +5,16 @@ import { Icon } from 'react-native-elements'
 import HomeScreen from '../screens/home.screen';
 import DetailsScreen from '../screens/details.screen';
 import ListScreen from "../screens/list.screen";
-import { DrawerScreen } from '../screens/drawer.screen';
+import DrawerScreen  from '../screens/drawer.screen';
 const drawer = createDrawerNavigator({
     Home: {
         screen: HomeScreen
     },
     List: {
         screen: ListScreen
+    },
+    Details: {
+        screen: DetailsScreen
     }
 }, {
     // drawerPosition: 'left',
@@ -28,23 +31,12 @@ const drawer = createDrawerNavigator({
     contentComponent: DrawerScreen,
         
 });
-const Ico= ()=>{
-    <Icon
-  name='g-translate'
-  color='#00aced' />
-}
+
 const AppNavigator = createStackNavigator({
     Home: {
         screen: drawer,
         navigationOptions: {
-            title: "Home",
-            header:Ico
-        }
-    },
-    Details: {
-        screen: DetailsScreen,
-        navigationOptions: {
-            title: 'Details'
+            header:null
         }
     }
 }, {initialRouteName: 'Home'});
