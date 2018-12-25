@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import { Text, View, StyleSheet, Image, ScrollView, SafeAreaView } from 'react-native'
 import { Button, Card } from 'react-native-elements';
 import { db } from '../DB/config';
-import Navbar from '../ReusableComponents/HeaderNavigation';
 export class DetailsScreen extends Component {
     constructor(props) {
         super(props);
@@ -15,11 +14,9 @@ export class DetailsScreen extends Component {
         console.log('in details view got itemid ' + itemId);
         const userRef = db.ref('/users/' + itemId);
         userRef.once('value').then((result) => {
-            console.log(result.val());
             this.setState({
                 info: result.val()
             });
-            // console.log(this.state.info);
         }).catch((err) => {
             console.log('Error found in getting data ' + err);
         });
@@ -27,7 +24,6 @@ export class DetailsScreen extends Component {
     render() {
         return (
             <SafeAreaView style={styles.container}>
-            <Navbar></Navbar>
                 <ScrollView>
                     <View>
                         <Card>

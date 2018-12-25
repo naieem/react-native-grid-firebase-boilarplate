@@ -8,9 +8,9 @@ import {
     TouchableHighlight,
     SafeAreaView,
     YellowBox,
-    Text
+    Text,
+    StatusBar
 } from 'react-native';
-import Navbar from '../ReusableComponents/HeaderNavigation';
 import GridList from 'react-native-grid-list';
 import BasicImageSlider from '../ReusableComponents/ImageSlider';
 import {db} from '../DB/config';
@@ -58,7 +58,7 @@ export class HomeScreen extends Component {
             console.log(this.state.categoryInfo.length);
         });
     }
-    
+
     gotoListPage = () => {
         this
             .props
@@ -93,14 +93,18 @@ export class HomeScreen extends Component {
         const images = ['https://placeimg.com/640/640/nature', 'https://placeimg.com/640/640/cats', 'https://placeimg.com/640/640/cats', 'https://placeimg.com/640/640/cats'];
         return (
             <SafeAreaView style={styles.container}>
-                <Navbar></Navbar>
+                {/* <StatusBar backgroundColor="blue" barStyle="dark-content"/>
+                <Navbar></Navbar> */}
                 <ScrollView>
                     <BasicImageSlider images={images} autoPlayWithInterval={5000}></BasicImageSlider>
                     <GridList
                         showSeparator
                         data={this.state.categoryInfo}
                         numColumns={2}
-                        renderItem={this.renderItem} style={{paddingTop: 10,}}/>
+                        renderItem={this.renderItem}
+                        style={{
+                        paddingTop: 10
+                    }}/>
                 </ScrollView>
             </SafeAreaView>
         )

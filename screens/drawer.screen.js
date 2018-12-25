@@ -26,7 +26,6 @@ class DrawerScreen extends Component {
                     }}
                     style={{
                         height: 200,
-                        marginTop: 40,
                     }}></Image>
                 {/* <DrawerItems {...this.props}/> */}
                 <TouchableOpacity style={[styles.menuContainer, this.state.currentState == 'Home' ? styles.showActiveMenu : styles.deactiveMenu]} onPress={() => this.changeRoute('Home')}>

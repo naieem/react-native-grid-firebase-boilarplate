@@ -1,12 +1,14 @@
 import React from 'react';
-import {StyleSheet,ScrollView,View,Text} from 'react-native';
-import {createStackNavigator, createAppContainer, createDrawerNavigator, DrawerItems, SafeAreaView} from "react-navigation";
-import { Icon } from 'react-native-elements'
+import {StyleSheet, ScrollView, View, Text} from 'react-native';
+import {createStackNavigator, createAppContainer,createBottomTabNavigator, createDrawerNavigator, DrawerItems, SafeAreaView} from "react-navigation";
+import {Icon} from 'react-native-elements'
 import HomeScreen from '../screens/home.screen';
 import DetailsScreen from '../screens/details.screen';
 import ListScreen from "../screens/list.screen";
-import DrawerScreen  from '../screens/drawer.screen';
-const drawer = createDrawerNavigator({
+import DrawerScreen from '../screens/drawer.screen';
+import BottomTabBar from '../ReusableComponents/BottomTabbar.component';
+import HeaderNavComponent from "../ReusableComponents/HeaderNav.component";
+const BotomTabNavigation = createBottomTabNavigator({
     Home: {
         screen: HomeScreen
     },
@@ -14,31 +16,21 @@ const drawer = createDrawerNavigator({
         screen: ListScreen
     },
     Details: {
-        screen: DetailsScreen
+        screen: DetailsScreen,
     }
 }, {
-    // drawerPosition: 'left',
-    // drawerType:'slide',
-    // contentOptions: {
-    //     activeTintColor: '#e91e63',
-    //     itemsContainerStyle: {
-    //       marginVertical: 0,
-    //     },
-    //     iconContainerStyle: {
-    //       opacity: 1
-    //     }
-    //   },
-    contentComponent: DrawerScreen,
-        
+    tabBarComponent:BottomTabBar
+    // contentComponent: DrawerScreen
 });
-
 const AppNavigator = createStackNavigator({
     Home: {
-        screen: drawer,
+        screen: BotomTabNavigation,
         navigationOptions: {
-            header:null
+            header:<HeaderNavComponent></HeaderNavComponent>
         }
     }
-}, {initialRouteName: 'Home'});
+}, {
+    initialRouteName: 'Home',
+});
 
 export default createAppContainer(AppNavigator);
