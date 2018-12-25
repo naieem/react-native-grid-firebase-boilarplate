@@ -23,7 +23,11 @@
             "**/*"
         ],
         "ios": {
-            "supportsTablet": true
+            "supportsTablet": true,
+            "bundleIdentifier": "com.naieem.ecommerce"
+        },
+        "android": {
+            "package": "com.naieem.ecommerce"
         }
     }
 }

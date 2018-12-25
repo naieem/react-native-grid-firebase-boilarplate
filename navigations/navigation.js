@@ -1,6 +1,13 @@
 import React from 'react';
 import {StyleSheet, ScrollView, View, Text} from 'react-native';
-import {createStackNavigator, createAppContainer,createBottomTabNavigator, createDrawerNavigator, DrawerItems, SafeAreaView} from "react-navigation";
+import {
+    createStackNavigator,
+    createAppContainer,
+    createBottomTabNavigator,
+    createDrawerNavigator,
+    DrawerItems,
+    SafeAreaView
+} from "react-navigation";
 import {Icon} from 'react-native-elements'
 import HomeScreen from '../screens/home.screen';
 import DetailsScreen from '../screens/details.screen';
@@ -8,6 +15,19 @@ import ListScreen from "../screens/list.screen";
 import DrawerScreen from '../screens/drawer.screen';
 import BottomTabBar from '../ReusableComponents/BottomTabbar.component';
 import HeaderNavComponent from "../ReusableComponents/HeaderNav.component";
+import NavMenu from '../ReusableComponents/NavMenu/navmenu.component';
+const RouteConfig = [
+    {
+        RouteName: 'Home',
+        MenuName: 'Home',
+        ContentComponent: HomeScreen
+    }, {
+        RouteName: 'Home',
+        MenuName: 'Home',
+        ContentComponent: HomeScreen
+    }
+];
+const ret = NavMenu.initialize('bottomTab',RouteConfig);
 const BotomTabNavigation = createBottomTabNavigator({
     Home: {
         screen: HomeScreen
@@ -16,21 +36,19 @@ const BotomTabNavigation = createBottomTabNavigator({
         screen: ListScreen
     },
     Details: {
-        screen: DetailsScreen,
+        screen: DetailsScreen
     }
 }, {
-    tabBarComponent:BottomTabBar
+    tabBarComponent: BottomTabBar
     // contentComponent: DrawerScreen
 });
 const AppNavigator = createStackNavigator({
     Home: {
         screen: BotomTabNavigation,
         navigationOptions: {
-            header:<HeaderNavComponent></HeaderNavComponent>
+            header: <HeaderNavComponent></HeaderNavComponent>
         }
     }
-}, {
-    initialRouteName: 'Home',
-});
+}, {initialRouteName: 'Home'});
 
 export default createAppContainer(AppNavigator);
