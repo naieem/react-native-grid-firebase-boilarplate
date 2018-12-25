@@ -10,7 +10,7 @@ import {
     SafeAreaView
 } from 'react-native'
 import {Card, ListItem, Button, Icon} from 'react-native-elements';
-import CommonService from '../common.service';
+import {navBarBottomCommonService} from '../ReusableComponents/NavMenu';
 import {db} from '../DB/config';
 export class ListScreen extends Component {
     constructor(props) {
@@ -21,7 +21,7 @@ export class ListScreen extends Component {
     }
     _onPressButton = (ind) => {
         console.log(ind);
-        CommonService.setActiveTitle({
+        navBarBottomCommonService.setActiveTitle({
             title:'List Details'
         });
         this

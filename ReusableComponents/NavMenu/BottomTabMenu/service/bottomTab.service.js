@@ -7,9 +7,11 @@ import {
     DrawerItems,
     SafeAreaView
 } from "react-navigation";
-routeConfig = [];
-routeObject = {};
-setRouteConfig = (config) => {
+import BottomTabBar from '../bottomTab.template.component';
+routeConfig = []; // getting route config from parent app
+routeObject = {}; // setting up route config from 'routeConfig'
+storedActiveTitle = undefined; // storing active screens title
+const setRouteConfig = (config) => {
     routeConfig = config;
     console.log('supplied routeConfig ');
     console.log(routeConfig);
@@ -18,9 +20,16 @@ setRouteConfig = (config) => {
             'screen': value.ContentComponent
         }
     });
+    const tabConfiguration = {
+        tabBarComponent: BottomTabBar
+    }
     console.log('modified routeConfig ');
     console.log(routeObject);
+    console.log('tab configuration ');
+    console.log(tabConfiguration);
+    return createBottomTabNavigator(routeObject, tabConfiguration);
 }
+
 export default BottomNavService = {
-    setRouteConfig: setRouteConfig
+    setRouteConfig: setRouteConfig,
 }

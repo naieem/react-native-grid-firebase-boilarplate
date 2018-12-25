@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
-import {Icon} from 'react-native-elements';
+// import {Icon} from 'react-native-elements';
 import {withNavigation, DrawerActions} from 'react-navigation';
-import CommonService from '../common.service';
+import {navBarBottomCommonService} from './NavMenu';
 class HeaderNavComponent extends Component {
     constructor(props) {
         super(props);
@@ -32,8 +32,8 @@ class HeaderNavComponent extends Component {
         // } else {
         //     console.log('ActiveRouteInfo not found');
         // }
-        console.log(CommonService.getActiveTitle());
-        const activeTitle = CommonService.getActiveTitle();
+        console.log(navBarBottomCommonService.checkService());
+        const activeTitle = navBarBottomCommonService.getActiveTitle();
         return (
             <View style={styles.container}>
                 <View style={styles.componentContainer}>

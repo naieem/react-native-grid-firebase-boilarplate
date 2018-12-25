@@ -22,26 +22,31 @@ const RouteConfig = [
         MenuName: 'Home',
         ContentComponent: HomeScreen
     }, {
-        RouteName: 'Home',
-        MenuName: 'Home',
-        ContentComponent: HomeScreen
+        RouteName: 'List',
+        MenuName: 'List',
+        ContentComponent: ListScreen
+    },
+    {
+        RouteName: 'Details',
+        MenuName: 'Details',
+        ContentComponent: DetailsScreen
     }
 ];
-const ret = NavMenu.initialize('bottomTab',RouteConfig);
-const BotomTabNavigation = createBottomTabNavigator({
-    Home: {
-        screen: HomeScreen
-    },
-    List: {
-        screen: ListScreen
-    },
-    Details: {
-        screen: DetailsScreen
-    }
-}, {
-    tabBarComponent: BottomTabBar
-    // contentComponent: DrawerScreen
-});
+const BotomTabNavigation = NavMenu.initialize('bottomTab',RouteConfig);
+// const BotomTabNavigation = createBottomTabNavigator({
+//     Home: {
+//         screen: HomeScreen
+//     },
+//     List: {
+//         screen: ListScreen
+//     },
+//     Details: {
+//         screen: DetailsScreen
+//     }
+// }, {
+//     tabBarComponent: BottomTabBar
+//     // contentComponent: DrawerScreen
+// });
 const AppNavigator = createStackNavigator({
     Home: {
         screen: BotomTabNavigation,

@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import {Icon} from 'react-native-elements';
 import { withNavigation } from 'react-navigation';
-import CommonService from '../common.service';
+import {navBarBottomCommonService} from '../navbar.common.service'
 class BottomTabBar extends Component {
   constructor(props) {
     super(props);
@@ -16,7 +16,7 @@ class BottomTabBar extends Component {
   }
   changeRoute = (route, params) => {
     console.log('Given params are ' + JSON.stringify(params));
-    CommonService.setActiveTitle(params);
+    navBarBottomCommonService.setActiveTitle(params);
     this
       .props
       .navigation
