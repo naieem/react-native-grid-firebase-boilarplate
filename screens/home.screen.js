@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React, {Component} from 'react';
 import {
     View,
     StyleSheet,
@@ -10,9 +10,8 @@ import {
     YellowBox,
     Text
 } from 'react-native';
-import {NavigationBar} from 'navigationbar-react-native';
+import Navbar from '../ReusableComponents/HeaderNavigation';
 import GridList from 'react-native-grid-list';
-import {Icon,Button} from 'react-native-elements'
 import BasicImageSlider from '../ReusableComponents/ImageSlider';
 import {db} from '../DB/config';
 
@@ -59,59 +58,7 @@ export class HomeScreen extends Component {
             console.log(this.state.categoryInfo.length);
         });
     }
-    ComponentLeft = () => {
-        return (
-            <View
-                style={{
-                flex: 1,
-                alignItems: 'flex-start',
-                paddingLeft: 20
-            }}>
-                <TouchableOpacity
-                    style={{
-                    justifyContent: 'center',
-                    flexDirection: 'row'
-                }}>
-                    <Icon
-                        name='ios-menu'
-                        type='ionicon'
-                        color='#fff'/>
-                </TouchableOpacity>
-            </View>
-        );
-    };
     
-    ComponentCenter = () => {
-        return (
-            <View style={{
-                flex: 1,
-                alignItems: 'center'
-            }}>
-                <Text style={{
-                    color: '#fff'
-                }}>Home</Text>
-            </View>
-        );
-    };
-    
-    ComponentRight = () => {
-        return (
-            <View
-                style={{
-                flex: 1,
-                alignItems: 'flex-end',
-                paddingRight: 20
-            }}>
-                <TouchableOpacity>
-                    <Text style={{
-                        color: 'white'
-                    }}>
-                        Right
-                    </Text>
-                </TouchableOpacity>
-            </View>
-        );
-    };
     gotoListPage = () => {
         this
             .props
@@ -135,7 +82,8 @@ export class HomeScreen extends Component {
             </TouchableHighlight>
         );
     };
-    openDrawer = () => {
+
+    openDrawer = (props) => {
         this
             .props
             .navigation
@@ -145,22 +93,14 @@ export class HomeScreen extends Component {
         const images = ['https://placeimg.com/640/640/nature', 'https://placeimg.com/640/640/cats', 'https://placeimg.com/640/640/cats', 'https://placeimg.com/640/640/cats'];
         return (
             <SafeAreaView style={styles.container}>
-                <NavigationBar
-                    componentLeft=
-                    {  this.componentLeft }
-                    componentCenter=
-                    { this.componentCente }
-                    statusBarStyle={{
-                    barStyle: 'dark-content'
-                }}/>
+                <Navbar></Navbar>
                 <ScrollView>
-                    <Button title='BUTTON' onPress={this.openDrawer}/>
                     <BasicImageSlider images={images} autoPlayWithInterval={5000}></BasicImageSlider>
                     <GridList
                         showSeparator
                         data={this.state.categoryInfo}
                         numColumns={2}
-                        renderItem={this.renderItem}/>
+                        renderItem={this.renderItem} style={{paddingTop: 10,}}/>
                 </ScrollView>
             </SafeAreaView>
         )
