@@ -8,11 +8,9 @@ import {
     DrawerItems,
     SafeAreaView
 } from "react-navigation";
-import {Icon} from 'react-native-elements'
 import HomeScreen from '../screens/home.screen';
 import DetailsScreen from '../screens/details.screen';
 import ListScreen from "../screens/list.screen";
-import DrawerScreen from '../screens/drawer.screen';
 import HeaderNavComponent from "../ReusableComponents/HeaderNav.component";
 import NavMenu from '../ReusableComponents/NavMenu/navmenu.component';
 const RouteConfig = [
