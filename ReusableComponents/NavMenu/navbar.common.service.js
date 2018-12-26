@@ -9,7 +9,7 @@ const setActiveMenuParam = (title) => {
 const getActiveMenuParams = () => {
     return storedActiveMenuParam;
 }
-export const navBarBottomCommonService = {
+export const navCommonService = {
     checkService: checkService,
     setActiveMenuParam: setActiveMenuParam,
     getActiveMenuParams: getActiveMenuParams

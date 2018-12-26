@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 // import {Icon} from 'react-native-elements';
 import {withNavigation, DrawerActions} from 'react-navigation';
-import {navBarBottomCommonService} from './NavMenu';
+import {navCommonService} from './NavMenu';
 class HeaderNavComponent extends Component {
     constructor(props) {
         super(props);
@@ -32,8 +32,8 @@ class HeaderNavComponent extends Component {
         // } else {
         //     console.log('ActiveRouteInfo not found');
         // }
-        // console.log(navBarBottomCommonService.checkService());
-        const activeTitle = navBarBottomCommonService.getActiveMenuParams();
+        // console.log(navCommonService.checkService());
+        const activeTitle = navCommonService.getActiveMenuParams();
         return (
             <View style={styles.container}>
                 <View style={styles.componentContainer}>

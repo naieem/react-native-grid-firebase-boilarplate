@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import {Icon} from 'react-native-elements';
 import {withNavigation} from 'react-navigation';
-import {navBarBottomCommonService} from '../navbar.common.service'
+import {navCommonService} from '../navbar.common.service'
 class BottomTabBar extends Component {
   constructor(props) {
     super(props);
@@ -13,7 +13,7 @@ class BottomTabBar extends Component {
   }
   changeRoute = (route, params) => {
     console.log('Given params are ' + JSON.stringify(params));
-    navBarBottomCommonService.setActiveMenuParam(params);
+    navCommonService.setActiveMenuParam(params);
     this
       .props
       .navigation
@@ -35,9 +35,6 @@ class BottomTabBar extends Component {
     }
   }
   render() {
-    console.log('inside bottom tab component');
-    console.log(this.props.routeConfig);
-    
     return (
       <View style={styles.tabbarContainer}>
         {this.props.routeConfig.length > 0 && this

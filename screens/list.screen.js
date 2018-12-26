@@ -10,7 +10,7 @@ import {
     SafeAreaView
 } from 'react-native'
 import {Card, ListItem, Button, Icon} from 'react-native-elements';
-import {navBarBottomCommonService} from '../ReusableComponents/NavMenu';
+import { RouteController } from '../ReusableComponents/RouteControll/route.controller';
 import {db} from '../DB/config';
 export class ListScreen extends Component {
     constructor(props) {
@@ -18,26 +18,18 @@ export class ListScreen extends Component {
         this.state = {
             userInfo: []
         };
+        this.gotoDetails = this.gotoDetails.bind(this);
     }
-    _onPressButton = (ind) => {
+    gotoDetails = (ind) => {
         console.log(ind);
-        navBarBottomCommonService.setActiveMenuParam({
-            title:'List Details'
-        });
-        this
-            .props
-            .navigation
-            .navigate('Details', {ItemId: ind});
-        //   alert('hukka hua '+ ind);
+        RouteController(this.props,'Details',{ItemId:ind,title:'Service Details'});
     }
     componentDidMount() {
         const users = db.ref('/users');
         users.on('value', (dataSnap) => {
-            // console.log(dataSnap.val());
             this.setState({
                 userInfo: dataSnap.val()
             });
-            // console.log(this.state.userInfo);
         });
     }
     render() {
@@ -49,15 +41,12 @@ export class ListScreen extends Component {
                     </View>
 }
                     <View>
-                        {/* <Button raised
-                    title="Go to Details"
-                    onPress={() => this.props.navigation.navigate('Details')}/> */}
                         {this.state.userInfo.length > 0 && this
                             .state
                             .userInfo
                             .map((data, index) => {
                                 return (
-                                    <TouchableOpacity key={index} onPress={() => this._onPressButton(index)}>
+                                    <TouchableOpacity key={index} onPress={() => this.gotoDetails(index)}>
                                         <Card >
                                             <View style={styles.listContainer}>
                                                 <View>

@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import {DrawerItems, withNavigation} from "react-navigation";
 import {Icon} from 'react-native-elements';
-import {navBarBottomCommonService} from '../navbar.common.service';
+import {navCommonService} from '../navbar.common.service';
 class DrawerScreen extends Component {
     constructor(props) {
         super(props);
@@ -19,11 +19,10 @@ class DrawerScreen extends Component {
         this.changeRoute = this
             .changeRoute
             .bind(this);
-        // console.log(this.props.navigation.state);
     }
     changeRoute = (route, params) => {
         // setting active menu param
-        navBarBottomCommonService.setActiveMenuParam(params);
+        navCommonService.setActiveMenuParam(params);
         this
             .props
             .navigation

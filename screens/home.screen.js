@@ -13,6 +13,7 @@ import {
 } from 'react-native';
 import GridList from 'react-native-grid-list';
 import BasicImageSlider from '../ReusableComponents/ImageSlider';
+import { RouteController } from '../ReusableComponents/RouteControll/route.controller';
 import {db} from '../DB/config';
 
 const items = [
@@ -60,10 +61,7 @@ export class HomeScreen extends Component {
     }
 
     gotoListPage = () => {
-        this
-            .props
-            .navigation
-            .navigate('List');
+        RouteController(this.props,'List',{title:'List'});
     }
     renderItem = ({item, index}) => {
         return (
