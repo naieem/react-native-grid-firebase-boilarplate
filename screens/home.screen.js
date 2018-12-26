@@ -82,7 +82,6 @@ export class HomeScreen extends Component {
             </TouchableHighlight>
         );
     };
-
     openDrawer = (props) => {
         this
             .props
@@ -103,7 +102,7 @@ export class HomeScreen extends Component {
                         numColumns={2}
                         renderItem={this.renderItem}
                         style={{
-                        paddingTop: 10
+                        paddingTop: 5
                     }}/>
                 </ScrollView>
             </SafeAreaView>
@@ -112,8 +111,7 @@ export class HomeScreen extends Component {
 }
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
-        paddingTop: 10
+        flex: 1
     },
     listItemContainer: {
         padding: 10

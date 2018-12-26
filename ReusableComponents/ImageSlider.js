@@ -31,8 +31,7 @@ export default class BasicImageSlider extends Component {
 
 const styles = StyleSheet.create({
     slider: { 
-        backgroundColor: '#fff',
-        paddingTop:10
+        backgroundColor: '#fff'
     },
     basicSlide: {
         alignItems: 'center',

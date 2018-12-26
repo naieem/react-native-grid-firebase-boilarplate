@@ -21,7 +21,7 @@ const setRouteConfig = (config) => {
         }
     });
     const tabConfiguration = {
-        tabBarComponent: BottomTabBar
+        tabBarComponent: (props)=><BottomTabBar routeConfig={routeConfig}></BottomTabBar>
     }
     console.log('modified routeConfig ');
     console.log(routeObject);

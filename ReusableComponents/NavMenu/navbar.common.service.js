@@ -1,16 +1,16 @@
-var storedActiveTitle = undefined;
+var storedActiveMenuParam = undefined;
 
 const checkService = () => {
-    console.log('hell world service works');
+    console.log('hello world navbar service works');
 }
-const setActiveTitle = (title) => {
-    storedActiveTitle = title;
+const setActiveMenuParam = (title) => {
+    storedActiveMenuParam = title;
 }
-const getActiveTitle = () => {
-    return storedActiveTitle;
+const getActiveMenuParams = () => {
+    return storedActiveMenuParam;
 }
 export const navBarBottomCommonService = {
     checkService: checkService,
-    setActiveTitle: setActiveTitle,
-    getActiveTitle: getActiveTitle
+    setActiveMenuParam: setActiveMenuParam,
+    getActiveMenuParams: getActiveMenuParams
 }

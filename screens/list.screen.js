@@ -21,7 +21,7 @@ export class ListScreen extends Component {
     }
     _onPressButton = (ind) => {
         console.log(ind);
-        navBarBottomCommonService.setActiveTitle({
+        navBarBottomCommonService.setActiveMenuParam({
             title:'List Details'
         });
         this

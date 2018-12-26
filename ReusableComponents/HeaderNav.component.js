@@ -22,7 +22,7 @@ class HeaderNavComponent extends Component {
             .dispatch(DrawerActions.openDrawer());
     }
     render() {
-        console.log('Before calling');
+        // console.log('Before calling');
         // console.log(Object.entries(this.props.navigation['_childrenNavigation'])[0][1]);
         // const ActiveRouteInfo = Object.entries(this.props.navigation['_childrenNavigation'])[0][1]['ActiveRouteInfo'];
         // if (ActiveRouteInfo) {
@@ -32,8 +32,8 @@ class HeaderNavComponent extends Component {
         // } else {
         //     console.log('ActiveRouteInfo not found');
         // }
-        console.log(navBarBottomCommonService.checkService());
-        const activeTitle = navBarBottomCommonService.getActiveTitle();
+        // console.log(navBarBottomCommonService.checkService());
+        const activeTitle = navBarBottomCommonService.getActiveMenuParams();
         return (
             <View style={styles.container}>
                 <View style={styles.componentContainer}>
@@ -50,7 +50,9 @@ class HeaderNavComponent extends Component {
                         <Text
                             style={[
                             {
-                                paddingTop: 5
+                                paddingTop: 5,
+                                fontWeight:'bold',
+                                textTransform:'uppercase'
                             },
                             styles.textColor
                         ]}>{activeTitle && activeTitle.title}

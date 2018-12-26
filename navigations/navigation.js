@@ -13,26 +13,40 @@ import HomeScreen from '../screens/home.screen';
 import DetailsScreen from '../screens/details.screen';
 import ListScreen from "../screens/list.screen";
 import DrawerScreen from '../screens/drawer.screen';
-import BottomTabBar from '../ReusableComponents/BottomTabbar.component';
 import HeaderNavComponent from "../ReusableComponents/HeaderNav.component";
 import NavMenu from '../ReusableComponents/NavMenu/navmenu.component';
 const RouteConfig = [
     {
         RouteName: 'Home',
         MenuName: 'Home',
-        ContentComponent: HomeScreen
+        ContentComponent: HomeScreen,
+        showOnMenu:true,
+        Params:{
+            title:'Home',
+            iconName:'ios-home',
+            iconType:'ionicon',
+            iconColor:'#fff'
+        }
     }, {
         RouteName: 'List',
         MenuName: 'List',
-        ContentComponent: ListScreen
+        ContentComponent: ListScreen,
+        showOnMenu:true,
+        Params:{
+            title:'List',
+            iconName:'ios-list',
+            iconType:'ionicon',
+            iconColor:'#fff'
+        }
     },
     {
         RouteName: 'Details',
         MenuName: 'Details',
-        ContentComponent: DetailsScreen
+        ContentComponent: DetailsScreen,
+        showOnMenu:false
     }
 ];
-const BotomTabNavigation = NavMenu.initialize('bottomTab',RouteConfig);
+const Navigation = NavMenu.initialize('bottomTab',RouteConfig);
 // const BotomTabNavigation = createBottomTabNavigator({
 //     Home: {
 //         screen: HomeScreen
@@ -49,7 +63,7 @@ const BotomTabNavigation = NavMenu.initialize('bottomTab',RouteConfig);
 // });
 const AppNavigator = createStackNavigator({
     Home: {
-        screen: BotomTabNavigation,
+        screen: Navigation,
         navigationOptions: {
             header: <HeaderNavComponent></HeaderNavComponent>
         }
