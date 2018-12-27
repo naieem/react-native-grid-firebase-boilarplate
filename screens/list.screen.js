@@ -84,7 +84,7 @@ export class ListScreen extends Component {
                             .map((data, index) => {
                                 return (
                                     <TouchableOpacity key={index} onPress={() => this.gotoDetails(data._id)}>
-                                        <Card>
+                                        <Card containerStyle={styles.containerStyless}>
                                             <View style={styles.listContainer}>
                                                 <View>
                                                     <Image
@@ -143,6 +143,9 @@ const styles = StyleSheet.create({
         width:"100%",
         justifyContent: 'center',
         alignItems: 'center'
+    },
+    containerStyle:{
+        borderRadius:10
     }
 });
 

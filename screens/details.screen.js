@@ -76,7 +76,7 @@ export class DetailsScreen extends Component {
                         <ActivityIndicator size="large" color="#0000ff"/>
                     </View>}
                     {this.state.info && <View>
-                        <Card>
+                        <Card containerStyle={styles.containerStyle}>
                             <Image
                                 source={{
                                 uri: this.state.info.picture
@@ -126,6 +126,9 @@ const styles = StyleSheet.create({
     },
     button: {
         backgroundColor: '#0000ce'
+    },
+    containerStyle:{
+        borderRadius:10
     }
 });
 export default DetailsScreen;
