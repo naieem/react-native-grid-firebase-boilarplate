@@ -9,11 +9,11 @@ import {
     SafeAreaView,
     YellowBox,
     Text,
-    StatusBar
+    ImageBackground
 } from 'react-native';
 import GridList from 'react-native-grid-list';
 import BasicImageSlider from '../ReusableComponents/ImageSlider';
-import { RouteController } from '../ReusableComponents/RouteControll/route.controller';
+import {RouteController} from '../ReusableComponents/RouteControll/route.controller';
 import {db} from '../DB/config';
 
 const items = [
@@ -54,38 +54,44 @@ export class HomeScreen extends Component {
             var sliceCat = this
                 .state
                 .backupCatInfo
-                .slice(0, 10);
+                .slice(0, 11);
             this.setState({categoryInfo: sliceCat});
             console.log(this.state.categoryInfo.length);
         });
     }
 
-    gotoListPage = () => {
-        RouteController(this.props,'List',{title:'List'});
+    gotoListPage = (catName) => {
+        RouteController(this.props, 'List', {title: 'List',categoryName:catName});
     }
     renderItem = ({item, index}) => {
         return (
             <TouchableHighlight
                 style={{
-                padding: 10
+                padding: 5
             }}
-                onPress={this.gotoListPage}>
-                <Image
+                onPress={()=>this.gotoListPage(item.title)}>
+                {/* <Image
                     style={{
                     height: 100
                 }}
                     source={{
                     uri: item.picture
-                }}/>
+                }}/> */}
+                <ImageBackground
+                    source={{
+                    uri: item.picture
+                }}
+                    style={{
+                    width: '100%',
+                    height: 70,
+                    justifyContent:'center',
+                    alignItems:'center'
+                }}>
+                    <Text style={{color:'#fff',fontWeight:'bold',fontSize:25,textTransform:'uppercase'}}>{item.title}</Text>
+                </ImageBackground>
             </TouchableHighlight>
         );
     };
-    openDrawer = (props) => {
-        this
-            .props
-            .navigation
-            .openDrawer();
-    }
     render() {
         const images = ['https://placeimg.com/640/640/nature', 'https://placeimg.com/640/640/cats', 'https://placeimg.com/640/640/cats', 'https://placeimg.com/640/640/cats'];
         return (

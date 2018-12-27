@@ -10,7 +10,7 @@ import {
     SafeAreaView
 } from 'react-native'
 import {Card, ListItem, Button, Icon} from 'react-native-elements';
-import { RouteController } from '../ReusableComponents/RouteControll/route.controller';
+import {RouteController} from '../ReusableComponents/RouteControll/route.controller';
 import {db} from '../DB/config';
 export class ListScreen extends Component {
     constructor(props) {
@@ -18,20 +18,57 @@ export class ListScreen extends Component {
         this.state = {
             userInfo: []
         };
-        this.gotoDetails = this.gotoDetails.bind(this);
+        this.gotoDetails = this
+            .gotoDetails
+            .bind(this);
     }
-    gotoDetails = (ind) => {
-        console.log(ind);
-        RouteController(this.props,'Details',{ItemId:ind,title:'Service Details'});
-    }
-    componentDidMount() {
-        const users = db.ref('/users');
-        users.on('value', (dataSnap) => {
-            this.setState({
-                userInfo: dataSnap.val()
-            });
+    gotoDetails = (_id) => {
+        console.log(_id);
+        RouteController(this.props, 'Details', {
+            _id: _id,
+            title: 'Service Details'
         });
     }
+
+    componentDidMount() {
+        console.log('list page called');
+        const querysring = this
+            .props
+            .navigation
+            .getParam('categoryName');
+        this.getServiceInfo(querysring);
+    }
+    componentDidUpdate(prevProps) {
+        console.log('component updated called');
+        console.log('get params is');
+        console.log(this.props.navigation.getParam('categoryName'));
+        // console.log(this.props.navigation.getParam('ItemId')); console.log('prev');
+        // console.log(prevProps); console.log('latest'); console.log(this.props);
+        if (prevProps && (prevProps.navigation.state.params.categoryName !== this.props.navigation.getParam('categoryName'))) {
+            this.setState({
+                userInfo:[]
+            });
+            this.getServiceInfo(this.props.navigation.getParam('categoryName'));
+        }
+    }
+    getServiceInfo = (categoryName) => {
+        const services = db.ref('/services');
+        services
+            .orderByChild("categoryName")
+            .equalTo(categoryName)
+            .on('value', (dataSnap) => {
+                const info = [];
+                const tempdatastore = dataSnap.val();
+                Object.values(tempdatastore).forEach(data => {
+                    info.push(data);
+                });
+                console.log(info.length);
+                this.setState({
+                    userInfo: info
+                });
+            });
+    }
+
     render() {
         return (
             <SafeAreaView style={styles.container}>
@@ -46,8 +83,8 @@ export class ListScreen extends Component {
                             .userInfo
                             .map((data, index) => {
                                 return (
-                                    <TouchableOpacity key={index} onPress={() => this.gotoDetails(index)}>
-                                        <Card >
+                                    <TouchableOpacity key={index} onPress={() => this.gotoDetails(data._id)}>
+                                        <Card>
                                             <View style={styles.listContainer}>
                                                 <View>
                                                     <Image
@@ -102,7 +139,8 @@ const styles = StyleSheet.create({
         flexDirection: 'row'
     },
     loaderContainer: {
-        flex: 10,
+        height:70,
+        width:"100%",
         justifyContent: 'center',
         alignItems: 'center'
     }

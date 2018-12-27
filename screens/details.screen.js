@@ -5,62 +5,77 @@ import {
     StyleSheet,
     Image,
     ScrollView,
-    SafeAreaView
-} from 'react-native'
+    SafeAreaView,
+    ActivityIndicator
+} from 'react-native';
 import {Button, Card} from 'react-native-elements';
 import {db} from '../DB/config';
 export class DetailsScreen extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            info: {}
+            info: undefined
         }
         console.log('constructor called');
-        this.setInformation = this.setInformation.bind(this);
+        this.setInformation = this
+            .setInformation
+            .bind(this);
     }
     componentDidMount() {
         console.log('component mounted');
-        console.log(this.props.navigation.getParam('ItemId'));
+        console.log(this.props.navigation.getParam('_id'));
         const itemId = this
             .props
             .navigation
-            .getParam('ItemId');
+            .getParam('_id');
         this.setInformation(itemId);
-        console.log('after mount');
+        // console.log('after mount');
     }
     componentDidUpdate(prevProps) {
-        // console.log('component updated');
-        // console.log(this.props.navigation.getParam('ItemId'));
-        // console.log('prev');
-        // console.log(prevProps);
-        // console.log('latest');
-        // console.log(this.props);
-        if (prevProps && (prevProps.navigation.state.params.ItemId !== this.props.navigation.getParam('ItemId'))) {
-            const itemId = this
-                .props
-                .navigation
-                .getParam('ItemId');
-            this.setInformation(itemId);
+        console.log('component updated');
+        // console.log(this.props.navigation.getParam('ItemId')); console.log('prev');
+        // console.log(prevProps); console.log('latest'); console.log(this.props);
+        
+        const currentParam = this.props.navigation.getParam('_id');
+        if (prevProps && (prevProps.navigation.state.params._id !== currentParam)) {
+            this.setState({
+                info:undefined
+            });
+            this.setInformation(currentParam);
         }
     }
     setInformation = (ItemId) => {
-        const userRef = db.ref('/users/' + ItemId);
+        console.log('supplied _id is '+ ItemId);
+        const userRef = db.ref('/services');
         userRef
+            .orderByChild("_id")
+            .equalTo(ItemId)
             .once('value')
             .then((result) => {
-                this.setState({info: result.val()});
+                console.log(typeof(result.val()));
+                const tempStore = result.val();
+                Object
+                    .values(tempStore)
+                    .forEach(value => {
+                        this.setState({info: value});
+                    });
                 // console.log(this.state.info);
             })
             .catch((err) => {
                 console.log('Error found in getting data ' + err);
             });
     }
+
     render() {
         // var userInfo = this.state.info;
         return (
             <SafeAreaView style={styles.container}>
                 <ScrollView>
                     <View>
+                        {!this.state.info && <View style={styles.loaderContainer}>
+                        <ActivityIndicator size="large" color="#0000ff"/>
+                    </View>}
+                    {this.state.info && <View>
                         <Card>
                             <Image
                                 source={{
@@ -96,6 +111,7 @@ export class DetailsScreen extends Component {
                                     fontWeight: 'bold'
                                 }}>About:</Text>{this.state.info.about}</Text>
                         </Card>
+                    </View>}
                     </View>
                 </ScrollView>
             </SafeAreaView>
