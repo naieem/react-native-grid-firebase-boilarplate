@@ -11,7 +11,6 @@ import {
 import GridList from 'react-native-grid-list';
 import BasicImageSlider from '../ReusableComponents/ImageSlider';
 import { RouteController } from '../ReusableComponents/RouteControll/route.controller';
-import ChatComponent from '../ReusableComponents/Chat';
 import { db } from '../DB/config';
 
 const items = [
@@ -118,8 +117,6 @@ export class HomeScreen extends Component {
                             paddingTop: 5
                         }} />
                 </ScrollView>
-                <ChatComponent></ChatComponent>
-
             </SafeAreaView>
         )
     }

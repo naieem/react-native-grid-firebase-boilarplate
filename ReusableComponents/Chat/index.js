@@ -9,28 +9,107 @@ import {
   KeyboardAvoidingView
 } from "react-native";
 import { Icon, Button } from "react-native-elements";
+import { db } from '../../DB/config';
+// Warn if overriding existing method
+if (Array.prototype.isEquals)
+  console.warn("Overriding existing Array.prototype.equals. Possible causes: New API defines the method, there's a framework conflict or you've got double inclusions in your code.");
+// attach the .equals method to Array's prototype to call it on any array
+Array.prototype.isEquals = function (array) {
+  // if the other array is a falsy value, return
+  if (!array)
+    return false;
+
+  // compare lengths - can save a lot of time 
+  if (this.length != array.length)
+    return false;
+
+  for (var i = 0, l = this.length; i < l; i++) {
+    // Check if we have nested arrays
+    if (this[i] instanceof Array && array[i] instanceof Array) {
+      // recurse into the nested arrays
+      if (!this[i].isEquals(array[i]))
+        return false;
+    }
+    else if (this[i] != array[i]) {
+      // Warning - two different object instances will never be equal: {x:20} != {x:20}
+      return false;
+    }
+  }
+  return true;
+}
+// Hide method from for-in loops
+Object.defineProperty(Array.prototype, "isEquals", { enumerable: false });
 export default class ChatComponent extends Component {
   constructor(props) {
     super(props);
+    this.messages = this.props.messages;
     this.state = {
       modalVisible: false,
       currentText: "",
+      CurrentObjectRef: {},
       messages: []
     };
+  }
+  componentDidMount() {
+    console.log('Props from chat component');
+    console.log(this.props);
+    const userRef = db.ref('/services');
+    console.log('after user ref');
+    userRef
+      .orderByChild("_id")
+      .equalTo(this.props.itemId)
+      .once('value')
+      .then((result) => {
+        if (result) {
+          result
+            .forEach(value => {
+              if (value) {
+                this.setState({
+                  CurrentObjectRef: value,
+                  messages: this.props.messages
+                });
+              }
+            });
+        } else {
+          console.log('no data found from chat component');
+        }
+      })
+      .catch((err) => {
+        console.log('Error found in getting data ' + err);
+      });
+  }
+  componentDidUpdate(prevProps) {
+    console.log('updated from chat component');
+    console.log('new prop is ');
+    console.log(prevProps.messages.isEquals(this.props.messages));
+    var isValueChanged = prevProps.messages.isEquals(this.props.messages);
+    if (!isValueChanged) {
+      this.setState({
+        messages: this.props.messages
+      });
+    }
   }
   setModalVisible(visible) {
     this.setState({ modalVisible: visible });
   }
   saveMessage = message => {
-    console.log("before add length is " + this.state.messages.length);
-    this.state.messages.push({ message: message });
-    this.state.messages.reverse();
-    this.setState({
-      messages: this.state.messages,
-      currentText: ""
-    });
-    console.log(this.state.messages);
-    console.log("after add length is " + this.state.messages.length);
+    if (message.trim() !== '' && message !== '') {
+      console.log("before add length is " + this.state.messages.length);
+      this.state.messages.reverse();
+      this.state.messages.unshift({ message: message });
+      this.state.CurrentObjectRef.ref.update({ messages: this.state.messages }).then(() => {
+        console.log('update success');
+        this.setState({
+          currentText: '' 
+        });
+      }).catch((er) => {
+        console.log(er);
+      });
+      console.log(this.state.messages);
+      console.log("after add length is " + this.state.messages.length);
+    } else {
+      alert('Can not send empty message');
+    }
   };
   render() {
     return (
@@ -41,15 +120,34 @@ export default class ChatComponent extends Component {
           transparent={false}
           visible={this.state.modalVisible}
           onRequestClose={() => {
-            Alert.alert("Modal has been closed.");
+            alert("Modal has been closed.");
           }}
         >
           <KeyboardAvoidingView
             enabled
             behavior="padding"
-            style={{ height: "100%" }}
+            style={{ height: 550 }}
           >
-            <ScrollView>
+            {/* close button container starts */}
+            <View style={{ position: "absolute", top: 25, right: 5 }}>
+              <Icon
+                reverse
+                name="ios-close"
+                type="ionicon"
+                color="#517fa4"
+                onPress={() => {
+                  this.setModalVisible(!this.state.modalVisible);
+                }}
+              />
+            </View>
+            <Text style={{ fontWeight: "bold", width: 200, height: 100, paddingLeft: 100, paddingTop: 50 }}>
+              Messages
+            </Text>
+            {/* close button container ends */}
+            <ScrollView ref={ref => this.scrollView = ref}
+              onContentSizeChange={(contentWidth, contentHeight) => {
+                this.scrollView.scrollToEnd({ animated: true });
+              }}>
               <View
                 style={{
                   flex: 1,
@@ -58,36 +156,21 @@ export default class ChatComponent extends Component {
                   justifyContent: "center",
                   alignContent: "center",
                   alignItems: "center",
-                  paddingTop: 50
                 }}
               >
-                {/* close button container starts */}
-                <View style={{ position: "absolute", top: 25, right: 5 }}>
-                  <Icon
-                    reverse
-                    name="ios-close"
-                    type="ionicon"
-                    color="#517fa4"
-                    onPress={() => {
-                      this.setModalVisible(!this.state.modalVisible);
-                    }}
-                  />
-                </View>
-                {/* close button container ends */}
+
                 {/* message container starts */}
                 <View
                   style={{
-                    marginTop: 50,
                     minHeight: 200,
-                    borderWidth: 1,
-                    borderColor: "#000",
                     padding: 10,
-                    width: "100%"
+                    width: "100%",
+                    alignItems:'center'
                   }}
                 >
-                  <Text style={{ fontWeight: "bold", paddingBottom: 10 }}>
-                    Messages
-                  </Text>
+                  {!this.state.messages.length && 
+                  <Text>No Message Found</Text>
+                  }
                   {this.state.messages.length > 0 &&
                     this.state.messages.map((data, index) => {
                       return (
@@ -105,7 +188,8 @@ export default class ChatComponent extends Component {
               style={{
                 justifyContent: "center",
                 alignItems: "center",
-                alignContent: "center"
+                alignContent: "center",
+                marginTop: 10
               }}
             >
               <TextInput
@@ -128,11 +212,12 @@ export default class ChatComponent extends Component {
                 }}
                 value={this.state.currentText}
               />
-              <TouchableHighlight style={{ paddingTop: 10, paddingBottom: 20 }}>
+              <TouchableHighlight style={{ paddingBottom: 20, marginTop: 10 }}>
                 <Button
                   raised
-                  title="BUTTON"
+                  title="Send Message"
                   onPress={() => this.saveMessage(this.state.currentText)}
+                  buttonStyle={{borderRadius:10,borderColor: "transparent"}}
                 />
               </TouchableHighlight>
             </View>
@@ -151,7 +236,7 @@ export default class ChatComponent extends Component {
         >
           <Icon
             reverse
-            name="ios-american-football"
+            name="ios-chatboxes"
             type="ionicon"
             color="#517fa4"
           />
