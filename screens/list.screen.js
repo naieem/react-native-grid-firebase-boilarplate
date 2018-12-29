@@ -26,7 +26,7 @@ export class ListScreen extends Component {
         console.log(_id);
         RouteController(this.props, 'Details', {
             _id: _id,
-            title: 'Service Details'
+            title: 'Details'
         });
     }
 

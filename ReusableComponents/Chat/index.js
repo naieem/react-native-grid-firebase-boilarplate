@@ -100,7 +100,7 @@ export default class ChatComponent extends Component {
       this.state.CurrentObjectRef.ref.update({ messages: this.state.messages }).then(() => {
         console.log('update success');
         this.setState({
-          currentText: '' 
+          currentText: ''
         });
       }).catch((er) => {
         console.log(er);
@@ -140,9 +140,11 @@ export default class ChatComponent extends Component {
                 }}
               />
             </View>
-            <Text style={{ fontWeight: "bold", width: 200, height: 100, paddingLeft: 100, paddingTop: 50 }}>
-              Messages
+            <View>
+              <Text style={{ fontWeight: "bold", width: 200, height: 100, paddingLeft: 30, paddingTop: 50 }}>
+                Messages
             </Text>
+            </View>
             {/* close button container ends */}
             <ScrollView ref={ref => this.scrollView = ref}
               onContentSizeChange={(contentWidth, contentHeight) => {
@@ -165,11 +167,10 @@ export default class ChatComponent extends Component {
                     minHeight: 200,
                     padding: 10,
                     width: "100%",
-                    alignItems:'center'
                   }}
                 >
-                  {!this.state.messages.length && 
-                  <Text>No Message Found</Text>
+                  {!this.state.messages.length &&
+                    <Text>No Message Found</Text>
                   }
                   {this.state.messages.length > 0 &&
                     this.state.messages.map((data, index) => {
@@ -217,7 +218,7 @@ export default class ChatComponent extends Component {
                   raised
                   title="Send Message"
                   onPress={() => this.saveMessage(this.state.currentText)}
-                  buttonStyle={{borderRadius:10,borderColor: "transparent"}}
+                  buttonStyle={{ borderRadius: 10, borderColor: "transparent" }}
                 />
               </TouchableHighlight>
             </View>

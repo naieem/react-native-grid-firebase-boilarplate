@@ -7,9 +7,6 @@ class BottomTabBar extends Component {
   constructor(props) {
     super(props);
     this.state = {};
-    this.listRouteData = {
-      title: 'Service List'
-    }
   }
   changeRoute = (route, params) => {
     console.log('Given params are ' + JSON.stringify(params));
