@@ -6,7 +6,8 @@ import {
   Modal,
   ScrollView,
   TextInput,
-  KeyboardAvoidingView
+  KeyboardAvoidingView,
+  Alert
 } from "react-native";
 import { Icon, Button } from "react-native-elements";
 import { db } from '../../DB/config';
@@ -108,7 +109,15 @@ export default class ChatComponent extends Component {
       console.log(this.state.messages);
       console.log("after add length is " + this.state.messages.length);
     } else {
-      alert('Can not send empty message');
+      Alert.alert(
+        'Warning',
+        'Can not send empty message',
+        [
+          { text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel' },
+          { text: 'OK', onPress: () => console.log('OK Pressed') },
+        ],
+        { cancelable: false }
+      )
     }
   };
   render() {
@@ -128,24 +137,25 @@ export default class ChatComponent extends Component {
             behavior="padding"
             style={{ height: 550 }}
           >
-            {/* close button container starts */}
-            <View style={{ position: "absolute", top: 25, right: 5 }}>
-              <Icon
-                reverse
-                name="ios-close"
-                type="ionicon"
-                color="#517fa4"
-                onPress={() => {
-                  this.setModalVisible(!this.state.modalVisible);
-                }}
-              />
-            </View>
-            <View>
+
+            <View style={{ flexDirection: 'row', alignContent: 'space-between', alignItems: 'flex-end' }}>
               <Text style={{ fontWeight: "bold", width: 200, height: 100, paddingLeft: 30, paddingTop: 50 }}>
                 Messages
-            </Text>
+              </Text>
+              {/* close button container starts */}
+              <View style={{ width: '50%', paddingRight: 20, alignItems: 'flex-end' }}>
+                <Icon
+                  reverse
+                  name="ios-close"
+                  type="ionicon"
+                  color="#517fa4"
+                  onPress={() => {
+                    this.setModalVisible(!this.state.modalVisible);
+                  }}
+                />
+              </View>
+              {/* close button container ends */}
             </View>
-            {/* close button container ends */}
             <ScrollView ref={ref => this.scrollView = ref}
               onContentSizeChange={(contentWidth, contentHeight) => {
                 this.scrollView.scrollToEnd({ animated: true });
